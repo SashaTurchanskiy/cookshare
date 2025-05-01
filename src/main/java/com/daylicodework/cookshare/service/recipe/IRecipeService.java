@@ -21,27 +21,27 @@ public interface IRecipeService {
 
     static Recipe createRecipe(CreateRecipeRequest request, User user) {
         Recipe recipe = new Recipe();
-        Recipe createdRecipe = request.getRecipe();
-        recipe.setTitle(createdRecipe.getTitle());
-        recipe.setInstructions(createdRecipe.getInstructions());
-        recipe.setPrepTime(createdRecipe.getPrepTime());
-        recipe.setCookTime(createdRecipe.getCookTime());
-        recipe.setCategory(createdRecipe.getCategory());
-        recipe.setDescription(createdRecipe.getDescription());
-        recipe.setCuisine(createdRecipe.getCuisine());
-        recipe.setIngredients(createdRecipe.getIngredients());
+        Recipe createRequest = request.getRecipe();
+        recipe.setTitle(createRequest.getTitle());
+        recipe.setCuisine(createRequest.getCuisine());
+        recipe.setCategory(createRequest.getCategory());
+        recipe.setInstructions(createRequest.getInstructions());
+        recipe.setDescription(createRequest.getDescription());
+        recipe.setPrepTime(createRequest.getPrepTime());
+        recipe.setCookTime(createRequest.getCookTime());
+        recipe.setIngredients(createRequest.getIngredients());
         recipe.setUser(user);
         return recipe;
     }
 
-    static Recipe updateRecipe(Recipe existingRecipe, RecipeUpdateRequest request) {
+    static Recipe updateRecipe(Recipe existingRecipe, RecipeUpdateRequest request){
         existingRecipe.setTitle(request.getTitle());
+        existingRecipe.setDescription(request.getDescription());
         existingRecipe.setInstructions(request.getInstructions());
+        existingRecipe.setCuisine(request.getCuisine());
         existingRecipe.setPrepTime(request.getPrepTime());
         existingRecipe.setCookTime(request.getCookTime());
         existingRecipe.setCategory(request.getCategory());
-        existingRecipe.setDescription(request.getDescription());
-        existingRecipe.setCuisine(request.getCuisine());
         existingRecipe.setIngredients(request.getIngredients());
         return existingRecipe;
     }
