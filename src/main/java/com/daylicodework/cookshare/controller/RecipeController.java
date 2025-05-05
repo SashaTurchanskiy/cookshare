@@ -1,5 +1,6 @@
 package com.daylicodework.cookshare.controller;
 
+import com.daylicodework.cookshare.dto.RecipeDto;
 import com.daylicodework.cookshare.model.Recipe;
 import com.daylicodework.cookshare.request.CreateRecipeRequest;
 import com.daylicodework.cookshare.request.RecipeUpdateRequest;
@@ -20,21 +21,27 @@ public class RecipeController {
 
 
     @PostMapping
-    public ResponseEntity<Recipe> createRecipe(@RequestBody CreateRecipeRequest request) {
-        return ResponseEntity.status(200).body(recipeService.createRecipe(request));
+    public ResponseEntity<RecipeDto> createRecipe(@RequestBody CreateRecipeRequest request) {
+        Recipe recipe = recipeService.createRecipe(request);
+        return ResponseEntity.ok(recipeService.convertToDto(recipe));
     }
 
     @GetMapping
-    public ResponseEntity<List<Recipe>> getAllRecipes() {
-        return ResponseEntity.ok(recipeService.getAllRecipes());
+    public ResponseEntity<List<RecipeDto>> getAllRecipes() {
+        List<Recipe> recipes = recipeService.getAllRecipes();
+        List<RecipeDto> recipeDto = recipeService.getConvertedRecipes(recipes);
+        return ResponseEntity.ok(recipeDto);
     }
     @GetMapping("/{recipeId}/recipe")
-    public ResponseEntity<Recipe> getRecipeById(@PathVariable Long recipeId) {
-        return ResponseEntity.ok(recipeService.getRecipeById(recipeId));
+    public ResponseEntity<RecipeDto> getRecipeById(@PathVariable Long recipeId) {
+        RecipeDto recipeDto = recipeService.convertToDto(recipeService.getRecipeById(recipeId));
+        return ResponseEntity.ok(recipeDto);
     }
     @PutMapping("/{recipeId}/update")
-    public ResponseEntity<Recipe> updateRecipe(@RequestBody RecipeUpdateRequest request,@PathVariable Long recipeId) {
-        return ResponseEntity.status(200).body(recipeService.updateRecipe(request, recipeId));
+    public ResponseEntity<RecipeDto> updateRecipe(@RequestBody RecipeUpdateRequest request,@PathVariable Long recipeId) {
+        Recipe updatedRecipe = recipeService.updateRecipe(request, recipeId);
+        RecipeDto recipeDto = recipeService.convertToDto(updatedRecipe);
+        return ResponseEntity.ok(recipeDto);
     }
     @DeleteMapping("/{recipeId}/delete")
     public ResponseEntity<Void> deleteRecipe(@PathVariable Long recipeId) {

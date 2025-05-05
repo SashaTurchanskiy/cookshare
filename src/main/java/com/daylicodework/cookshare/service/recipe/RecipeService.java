@@ -1,5 +1,7 @@
 package com.daylicodework.cookshare.service.recipe;
 
+import com.daylicodework.cookshare.dto.RecipeDto;
+import com.daylicodework.cookshare.dto.UserDto;
 import com.daylicodework.cookshare.model.Recipe;
 import com.daylicodework.cookshare.model.User;
 import com.daylicodework.cookshare.repository.RecipeRepository;
@@ -8,6 +10,8 @@ import com.daylicodework.cookshare.request.CreateRecipeRequest;
 import com.daylicodework.cookshare.request.RecipeUpdateRequest;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +25,7 @@ public class RecipeService implements IRecipeService{
 
     private final RecipeRepository recipeRepository;
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
 
     @Override
@@ -81,5 +86,18 @@ public class RecipeService implements IRecipeService{
                 .stream()
                 .map(Recipe::getCuisine)
                 .collect(Collectors.toSet());
+    }
+    @Override
+    public List<RecipeDto> getConvertedRecipes(List<Recipe> recipes) {
+        return recipes.stream()
+                .map(this::convertToDto).toList();
+    }
+
+    @Override
+    public RecipeDto convertToDto(Recipe recipe) {
+        RecipeDto recipeDto = modelMapper.map(recipe, RecipeDto.class);
+        UserDto userDto = modelMapper.map(recipe.getUser(), UserDto.class);
+        recipeDto.setUser(userDto);
+        return recipeDto;
     }
 }
