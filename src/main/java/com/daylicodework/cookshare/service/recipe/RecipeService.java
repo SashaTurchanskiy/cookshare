@@ -2,6 +2,7 @@ package com.daylicodework.cookshare.service.recipe;
 
 import com.daylicodework.cookshare.dto.RecipeDto;
 import com.daylicodework.cookshare.dto.UserDto;
+import com.daylicodework.cookshare.exception.RecipeNotFoundException;
 import com.daylicodework.cookshare.model.Recipe;
 import com.daylicodework.cookshare.model.User;
 import com.daylicodework.cookshare.repository.RecipeRepository;
@@ -61,7 +62,7 @@ public class RecipeService implements IRecipeService{
     @Override
     public Recipe getRecipeById(Long id) {
         return recipeRepository.findById(id).orElseThrow(()->
-                new EntityNotFoundException("Recipe not found with id: " + id));
+                new RecipeNotFoundException("Recipe not found with id: " + id));
     }
 
     @Override
