@@ -37,7 +37,6 @@ public class Recipe {
     private List<String> ingredients;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
 

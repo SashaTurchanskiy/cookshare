@@ -1,5 +1,6 @@
 package com.daylicodework.cookshare.service.recipe;
 
+import com.daylicodework.cookshare.dto.RecipeDto;
 import com.daylicodework.cookshare.model.Recipe;
 import com.daylicodework.cookshare.model.User;
 import com.daylicodework.cookshare.request.CreateRecipeRequest;
@@ -46,4 +47,7 @@ public interface IRecipeService {
         return existingRecipe;
     }
 
+    List<RecipeDto> getConvertedRecipes(List<Recipe> recipes);
+
+    RecipeDto convertToDto(Recipe recipe);
 }
