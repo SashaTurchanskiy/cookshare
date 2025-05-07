@@ -1,6 +1,5 @@
 package com.daylicodework.cookshare.dto;
 
-import com.daylicodework.cookshare.model.User;
 import lombok.Data;
 
 @Data
@@ -13,6 +12,7 @@ public class RecipeDto {
     private String category;
     private String description;
     private String cuisine;
-
+    private int likeCount;
     private UserDto user;
+    private ImageDto image;
 }

@@ -1,10 +1,13 @@
 package com.daylicodework.cookshare.service.recipe;
 
+import com.daylicodework.cookshare.dto.ImageDto;
 import com.daylicodework.cookshare.dto.RecipeDto;
 import com.daylicodework.cookshare.dto.UserDto;
 import com.daylicodework.cookshare.exception.RecipeNotFoundException;
+import com.daylicodework.cookshare.model.Image;
 import com.daylicodework.cookshare.model.Recipe;
 import com.daylicodework.cookshare.model.User;
+import com.daylicodework.cookshare.repository.ImageRepository;
 import com.daylicodework.cookshare.repository.RecipeRepository;
 import com.daylicodework.cookshare.repository.UserRepository;
 import com.daylicodework.cookshare.request.CreateRecipeRequest;
@@ -27,6 +30,7 @@ public class RecipeService implements IRecipeService{
     private final RecipeRepository recipeRepository;
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final ImageRepository imageRepository;
 
 
     @Override
@@ -98,6 +102,8 @@ public class RecipeService implements IRecipeService{
     public RecipeDto convertToDto(Recipe recipe) {
         RecipeDto recipeDto = modelMapper.map(recipe, RecipeDto.class);
         UserDto userDto = modelMapper.map(recipe.getUser(), UserDto.class);
+        Optional<Image> image = Optional.ofNullable(imageRepository.findByRecipeId(recipe.getId()));
+        image.map(img -> modelMapper.map(img, ImageDto.class)).ifPresent(recipeDto::setImage);
         recipeDto.setUser(userDto);
         return recipeDto;
     }
