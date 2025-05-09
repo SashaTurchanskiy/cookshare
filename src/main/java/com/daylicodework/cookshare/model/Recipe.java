@@ -45,4 +45,12 @@ public class Recipe {
 
     @OneToOne(mappedBy = "recipe", cascade = CascadeType.ALL)
     private Image image;
+
+    public double calculateAverageRating() {
+        return review
+                .stream()
+                .mapToInt(Review::getStars)
+                .average()
+                .orElse(0.0);
+    }
 }
